@@ -58,6 +58,7 @@
   },
   "scripts": {
     "dev": "turbo dev --filter=@clerk/* --filter=!@clerk/expo",
+    "dev:current": "turbo dev:current",
     "build": "turbo build --concurrency=${TURBO_CONCURRENCY:-2}",
     "test": "turbo test --concurrency=${TURBO_CONCURRENCY:-2}",
     "test:ci": "turbo test --concurrency=${TURBO_CONCURRENCY:-2}",
