@@ -13,6 +13,7 @@ import {
 import { dark, neobrutalism, shadesOfPurple } from '@clerk/themes';
 import Link from 'next/link';
 import React, { useState } from 'react';
+import { CustomPageComponent } from './CustomPageComponent';
 
 const themes = { default: undefined, dark, neobrutalism, shadesOfPurple };
 
@@ -86,7 +87,14 @@ const AppBar = (props: AppBarProps) => {
         <option value='shadesOfPurple'>shadesOfPurple</option>
       </select>
       <button onClick={props.onToggleDark}>toggle dark mode</button>
-      <UserButton  afterSignOutUrl='/'/>
+      <UserButton
+        afterSignOutUrl='/'
+        userProfileProps={{
+          customPages: [{ name: 'Custom Page', path: 'custom', component: <CustomPageComponent /> }],
+        }}
+        userProfileMode={'navigation'}
+        userProfileUrl={'/user'}
+      />
 
       <SignedIn>
         <SignOutButton />

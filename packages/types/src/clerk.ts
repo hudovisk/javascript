@@ -624,6 +624,7 @@ export type UserProfileProps = {
    * e.g. <UserProfile additionalOAuthScopes={{google: ['foo', 'bar'], github: ['qux']}} />
    */
   additionalOAuthScopes?: Partial<Record<OAuthProvider, OAuthScope[]>>;
+  customPages?: any[];
 };
 
 export type OrganizationProfileProps = {
