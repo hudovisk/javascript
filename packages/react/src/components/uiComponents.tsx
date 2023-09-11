@@ -41,7 +41,7 @@ import { withClerk } from './withClerk';
 // });
 
 // Portal.displayName = 'ClerkPortal';
-class Portal extends React.PureComponent<MountProps, {}> {
+class Portal extends React.PureComponent<MountProps, Record<string, never>> {
   private portalRef = React.createRef<HTMLDivElement>();
 
   componentDidUpdate(prevProps: Readonly<MountProps>) {
