@@ -1,4 +1,4 @@
-import React from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { extractDigits, formatPhoneNumber, parsePhoneString } from '../../utils';
 import type { CountryIso } from './countryCodeData';
@@ -15,22 +15,27 @@ const format = (str: string, iso: CountryIso) => {
 };
 
 export const useFormattedPhoneNumber = (props: UseFormattedPhoneNumberProps) => {
-  const [number, setNumber] = React.useState(() => {
-    const { number } = parsePhoneString(props.initPhoneWithCode || '');
+  const { initPhoneWithCode, locationBasedCountryIso } = props;
+  const [number, setNumber] = useState(() => {
+    const { number } = parsePhoneString(initPhoneWithCode || '');
     return number;
   });
 
-  const [iso, setIso] = React.useState(
-    parsePhoneString(props.initPhoneWithCode || '').number
-      ? parsePhoneString(props.initPhoneWithCode || '').iso
-      : props.locationBasedCountryIso || 'us',
+  const [iso, setIso] = useState(
+    parsePhoneString(initPhoneWithCode || '').number
+      ? parsePhoneString(initPhoneWithCode || '').iso
+      : locationBasedCountryIso || 'us',
   );
 
-  React.useEffect(() => {
+  useEffect(() => {
+    setNumber(parsePhoneString(props.initPhoneWithCode || '').number);
+  }, [initPhoneWithCode]);
+
+  useEffect(() => {
     setNumber(extractDigits(number));
   }, [iso, number]);
 
-  const numberWithCode = React.useMemo(() => {
+  const numberWithCode = useMemo(() => {
     if (!number) {
       return '';
     }
@@ -38,11 +43,11 @@ export const useFormattedPhoneNumber = (props: UseFormattedPhoneNumberProps) => 
     return '+' + extractDigits(`${dialCode}${number}`);
   }, [iso, number]);
 
-  const formattedNumber = React.useMemo(() => {
+  const formattedNumber = useMemo(() => {
     return format(number, iso);
   }, [iso, number]);
 
-  const setNumberAndIso = React.useCallback(
+  const setNumberAndIso = useCallback(
     (str: string) => {
       const { iso, number } = parsePhoneString(str);
       setNumber(number);

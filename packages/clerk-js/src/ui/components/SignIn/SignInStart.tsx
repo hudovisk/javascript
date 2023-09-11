@@ -1,5 +1,5 @@
 import type { ClerkAPIError, SignInCreateParams } from '@clerk/types';
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 
 import { ERROR_CODES } from '../../../core/constants';
 import { clerkInvalidFAPIResponse } from '../../../core/errors';
@@ -64,7 +64,17 @@ export function _SignInStart(): JSX.Element {
     placeholder: localizationKeys('formFieldInputPlaceholder__password') as any,
   });
 
-  const identifierField = useFormControl('identifier', '', {
+  const initialValues: Record<SignInStartIdentifier, string | undefined> = useMemo(
+    () => ({
+      email_address: ctx.initialValues?.emailAddress,
+      email_address_username: ctx.initialValues?.emailAddress || ctx.initialValues?.username,
+      username: ctx.initialValues?.username,
+      phone_number: ctx.initialValues?.phoneNumber,
+    }),
+    [JSON.stringify(ctx.initialValues)],
+  );
+
+  const identifierField = useFormControl('identifier', initialValues[identifierAttribute] || '', {
     ...currentIdentifier,
     isRequired: true,
   });
@@ -73,33 +83,40 @@ export function _SignInStart(): JSX.Element {
     setIdentifierAttribute(
       i => identifierAttributes[(identifierAttributes.indexOf(i) + 1) % identifierAttributes.length],
     );
-    identifierField.setValue('');
   };
 
-  const switchToPhoneInput = (value?: string) => {
+  const switchToPhoneInput = () => {
     setIdentifierAttribute('phone_number');
-    identifierField.setValue(value || '');
   };
 
   // switch to the phone input (if available) if a "+" is entered
   // (either by the browser or the user)
   // this does not work in chrome as it does not fire the change event and the value is
   // not available via js
-  React.useLayoutEffect(() => {
+  useLayoutEffect(() => {
     if (
       identifierField.value.startsWith('+') &&
       identifierAttributes.includes('phone_number') &&
       identifierAttribute !== 'phone_number' &&
       !hasSwitchedByAutofill
     ) {
-      switchToPhoneInput(identifierField.value);
+      switchToPhoneInput();
       // do not switch automatically on subsequent autofills
       // by the browser to avoid a switch loop
       setHasSwitchedByAutofill(true);
     }
   }, [identifierField.value, identifierAttributes]);
 
-  React.useEffect(() => {
+  useLayoutEffect(() => {
+    if (identifierAttribute === 'phone_number' && identifierField.value.startsWith('+')) {
+      //value should be kept as we have auto-switched to the phone input
+      return;
+    }
+
+    identifierField.setValue(initialValues[identifierAttribute] || '');
+  }, [identifierAttribute]);
+
+  useEffect(() => {
     if (!organizationTicket) {
       return;
     }
@@ -137,7 +154,7 @@ export function _SignInStart(): JSX.Element {
       });
   }, []);
 
-  React.useEffect(() => {
+  useEffect(() => {
     async function handleOauthError() {
       const error = signIn?.firstFactorVerification?.error;
       if (error) {
@@ -303,7 +320,7 @@ const InstantPasswordRow = ({ field }: { field?: FormControlState<'password'> })
   const ref = useRef<HTMLInputElement>(null);
 
   // show password if it's autofilled by the browser
-  React.useLayoutEffect(() => {
+  useLayoutEffect(() => {
     const intervalId = setInterval(() => {
       if (ref?.current) {
         const autofilled = window.getComputedStyle(ref.current, ':autofill').animationName === 'onAutoFillStart';

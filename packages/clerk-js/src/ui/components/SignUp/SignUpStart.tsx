@@ -50,27 +50,27 @@ function _SignUpStart(): JSX.Element {
   const { failedValidationsText } = usePasswordComplexity(passwordSettings);
 
   const formState = {
-    firstName: useFormControl('firstName', signUp.firstName || '', {
+    firstName: useFormControl('firstName', signUp.firstName || ctx.initialValues?.firstName || '', {
       type: 'text',
       label: localizationKeys('formFieldLabel__firstName'),
       placeholder: localizationKeys('formFieldInputPlaceholder__firstName'),
     }),
-    lastName: useFormControl('lastName', signUp.lastName || '', {
+    lastName: useFormControl('lastName', signUp.lastName || ctx.initialValues?.lastName || '', {
       type: 'text',
       label: localizationKeys('formFieldLabel__lastName'),
       placeholder: localizationKeys('formFieldInputPlaceholder__lastName'),
     }),
-    emailAddress: useFormControl('emailAddress', signUp.emailAddress || '', {
+    emailAddress: useFormControl('emailAddress', signUp.emailAddress || ctx.initialValues?.emailAddress || '', {
       type: 'email',
       label: localizationKeys('formFieldLabel__emailAddress'),
       placeholder: localizationKeys('formFieldInputPlaceholder__emailAddress'),
     }),
-    username: useFormControl('username', signUp.username || '', {
+    username: useFormControl('username', signUp.username || ctx.initialValues?.username || '', {
       type: 'text',
       label: localizationKeys('formFieldLabel__username'),
       placeholder: localizationKeys('formFieldInputPlaceholder__username'),
     }),
-    phoneNumber: useFormControl('phoneNumber', signUp.phoneNumber || '', {
+    phoneNumber: useFormControl('phoneNumber', signUp.phoneNumber || ctx.initialValues?.phoneNumber || '', {
       type: 'tel',
       label: localizationKeys('formFieldLabel__phoneNumber'),
       placeholder: localizationKeys('formFieldInputPlaceholder__phoneNumber'),
