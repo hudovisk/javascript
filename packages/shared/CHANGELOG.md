@@ -1,5 +1,11 @@
 # Change Log
 
+## 0.22.1
+
+### Patch Changes
+
+- Use buildUrlWithAuth for all links and Clerk-triggered navigations ([#1676](https://github.com/clerkinc/javascript/pull/1676)) by [@desiprisg](https://github.com/desiprisg)
+
 ## 0.22.0
 
 ### Minor Changes

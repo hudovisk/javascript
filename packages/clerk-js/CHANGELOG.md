@@ -1,5 +1,25 @@
 # Change Log
 
+## 4.58.0
+
+### Minor Changes
+
+- Introduce the new brand new component <OrganizationList /> ([#1692](https://github.com/clerkinc/javascript/pull/1692)) by [@panteliselef](https://github.com/panteliselef)
+
+  - Lists all the memberships, invitations or suggestions an active user may have
+  - Powered by our `useOrganizationList` react hook
+
+### Patch Changes
+
+- Use buildUrlWithAuth for all links and Clerk-triggered navigations ([#1676](https://github.com/clerkinc/javascript/pull/1676)) by [@desiprisg](https://github.com/desiprisg)
+
+- Add support for redirecting to "factor-one" during account transfer flow. ([#1696](https://github.com/clerkinc/javascript/pull/1696)) by [@kostaspt](https://github.com/kostaspt)
+
+- Updated dependencies [[`28316a0da`](https://github.com/clerkinc/javascript/commit/28316a0da32b624a3e1655b2c11ebdde7eeca86e), [`e99df0a0d`](https://github.com/clerkinc/javascript/commit/e99df0a0de8ab91e9de4d32dfab46ad562f510d3)]:
+  - @clerk/shared@0.22.1
+  - @clerk/localizations@1.26.0
+  - @clerk/types@3.52.0
+
 ## 4.57.0
 
 ### Minor Changes

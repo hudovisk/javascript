@@ -1,5 +1,19 @@
 # Change Log
 
+## 1.26.0
+
+### Minor Changes
+
+- Introduce the new brand new component <OrganizationList /> ([#1692](https://github.com/clerkinc/javascript/pull/1692)) by [@panteliselef](https://github.com/panteliselef)
+
+  - Lists all the memberships, invitations or suggestions an active user may have
+  - Powered by our `useOrganizationList` react hook
+
+### Patch Changes
+
+- Updated dependencies [[`e99df0a0d`](https://github.com/clerkinc/javascript/commit/e99df0a0de8ab91e9de4d32dfab46ad562f510d3)]:
+  - @clerk/types@3.52.0
+
 ## 1.25.2
 
 ### Patch Changes
